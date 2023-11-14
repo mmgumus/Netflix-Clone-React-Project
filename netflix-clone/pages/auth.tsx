@@ -3,9 +3,17 @@ import { useState } from "react";
 
 
 const Auth = () => {
+
+
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
+
+    const [variant, setVariant] = useState('login')
+
+    const toggleVariant = useCallback(() => {
+        setVariant((currentvariant) => currentvariant === 'login' ? 'signup' : 'login')})
+
     return (
         <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover ">
             <div className="bg-black w-full h-full lg:bg-opacity-50">
@@ -40,13 +48,20 @@ const Auth = () => {
                                 value={password}
                             />
                             <button className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition ">
-                                Sign In
+                                 Login
                             </button>
+                            <p className="text-neutral-500 mt-3">
+                                First time using Netflix?
+                                <span className="text-white ml-1 hover:underline cursor-pointer">                                 Create and account </span>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
+
 
     )
 }
