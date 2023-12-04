@@ -10,14 +10,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const { email, name, password } = req.body;
 
-        const existing = await prismadb.user.findUnique({
+        const existingUser = await prismadb.user.findUnique({
             where: {
                 email
             }
         });
 
-        if(existing) {
-            return res.status(422).json({message: 'Email already exists'});
+        if(existingUser) {
+            return res.status(422).json({message: 'Email taken'});
         }
         
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -31,9 +31,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 emailVerified: new Date(),
             }
         });
+
+        return res.status(200).json({user});
         
-        return res.status(200);
-    } catch (error) {
-        return res.status(400).json({error: 'Something went wrong: ${error}'});
+    } catch (error: any) {
+        return res.status(400).json({error: `Something went wrong: ${error.message}`});
     }
 }
+        
